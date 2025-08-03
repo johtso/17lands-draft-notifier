@@ -305,7 +305,10 @@ if __name__ == "__main__":
         if not m:
             continue
 
-        pack = DraftPack(ratings_by_id, **eval(m.group("draft_notify")))
+        draft_notify_obj = eval(m.group("draft_notify"))
+        draft_pack_keys = ["draft_id", "event_name", "pack_number", "pick_number", "method", "card_ids"]
+        filtered_kwargs = {k: draft_notify_obj[k] for k in draft_pack_keys if k in draft_notify_obj}
+        pack = DraftPack(ratings_by_id, **filtered_kwargs)
 
         if not pack.cards:
             continue
